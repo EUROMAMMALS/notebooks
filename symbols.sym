@@ -1,0 +1,54 @@
+SYMBOLSET
+
+SYMBOL
+  NAME "circlef"
+  TYPE ellipse
+  FILLED true
+  POINTS
+    10 10
+  END # POINTS
+END # SYMBOL
+
+SYMBOL
+    NAME 'eurodeer'
+    TYPE svg
+    image 'icons/eurodeer_icon.svg'
+END
+
+SYMBOL
+    NAME 'eurowildcat'
+    TYPE svg
+    image 'icons/eurocats_icon.svg'
+END
+
+SYMBOL
+    NAME 'euroibex'
+    TYPE svg
+    image 'icons/euroibex_icon.svg'
+END
+
+SYMBOL
+    NAME 'euroboar'
+    TYPE svg
+    image 'icons/euroboar_icon.svg'
+END
+
+SYMBOL
+    NAME 'eureddeer'
+    TYPE svg
+    image 'icons/eureddeer_icon.svg'
+END
+
+SYMBOL
+    NAME 'eurolynx'
+    TYPE svg
+    image 'icons/eurolynx_icon.svg'
+END
+
+SYMBOL
+    NAME 'eurosmallmammals'
+    TYPE svg
+    image 'icons/eurosmallmammals_icon.svg'
+END
+
+END
