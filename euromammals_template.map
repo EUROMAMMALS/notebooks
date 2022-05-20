@@ -1,0 +1,124 @@
+MAP
+    NAME "{} network map"
+    STATUS ON
+    SIZE 1500 1000
+    SYMBOLSET "symbols.sym"
+    EXTENT -12 35 34 70
+    UNITS DD
+    IMAGECOLOR 255 255 255
+    DEBUG 5
+    CONFIG "MS_ERRORFILE" "./mapserver.log"
+    FONTSET "fonts.list"
+    #
+    # Start projection
+    #
+
+    PROJECTION
+        "init=epsg:4326"
+    END
+
+    #
+    # Start output format
+    #
+
+    OUTPUTFORMAT
+        NAME "png"
+        DRIVER "CAIRO/PNG"
+        MIMETYPE "image/png"
+        IMAGEMODE RGBA
+        EXTENSION "png"
+        TRANSPARENT OFF
+        FORMATOPTION "INTERLACE=OFF"
+    END
+
+    LEGEND
+        STATUS ON
+        KEYSIZE 40 40
+        KEYSPACING 2 0 # spazio tra le immagini il secondo valore
+        IMAGECOLOR 255 255 255
+        LABEL
+            COLOR 0 0 0
+            OUTLINECOLOR 255 255 255
+	          FONT 'ubuntu-bold'
+	          TYPE TRUETYPE
+	          SIZE 15 
+	          OFFSET 5 -5
+        END
+    END
+    
+    LAYER
+        TYPE POLYGON
+        NAME "countries"
+        DATA "./data/ne_10m_admin_0_sovereignty.shp"
+        STATUS ON
+        CLASS
+            NAME "Countries"
+            STYLE
+                COLOR 215 215 215
+                OUTLINECOLOR 100 100 100
+            END #STYLE
+        END
+    END
+    
+    LAYER
+        TYPE POLYGON
+        NAME "Study areas"
+        CONNECTIONTYPE POSTGIS
+        CONNECTION "host={host} user={user} password={password} dbname={network}_db"
+        DATA "geom from main.study_areas"
+        PROCESSING "CLOSE_CONNECTION=DEFER"
+        LABELCACHE ON
+        STATUS ON
+        LABELITEM "short_name"
+        CLASS
+            NAME "Study areas"
+            STYLE
+                GEOMTRANSFORM CENTROID
+                SYMBOL "{network}"
+                SIZE 30
+            END
+        END
+    END
+    LAYER
+        TYPE POINT
+        NAME "Reserch groups"
+        CONNECTIONTYPE POSTGIS
+        CONNECTION "host={host} user={user} password={password} dbname={network}_db"
+        DATA "geom from (select research_groups_id, short_name, geom from main.research_groups where ST_Contains(!BOX!, geom)) as subquery using unique research_groups_id using srid 4326"
+        PROCESSING "CLOSE_CONNECTION=DEFER"
+        LABELCACHE ON
+        STATUS ON
+        LABELITEM "short_name"
+        CLASS
+            NAME "Research groups"
+            STYLE
+                SYMBOL "circlef"
+                SIZE 10
+                COLOR "#a68cb1"
+                OUTLINECOLOR 0 0 0
+            END #STYLE
+            LABEL
+                OUTLINECOLOR 255 255 255
+                OUTLINEWIDTH 2
+                COLOR 0 0 0
+                TYPE TRUETYPE
+                FONT "ubuntu-bold"
+                SIZE 12
+                ANTIALIAS TRUE
+                POSITION AUTO
+                PARTIALS FALSE
+                FORCE FALSE
+                WRAP "-"
+                MINDISTANCE 50
+                OFFSET 2 2
+            END
+            LEADER
+                MAXDISTANCE 200
+                STYLE
+                    COLOR "#a68cb1"
+                    WIDTH 2
+                END
+            END
+        END
+    END
+END
