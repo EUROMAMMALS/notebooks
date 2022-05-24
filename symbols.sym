@@ -51,4 +51,11 @@ SYMBOL
     image 'icons/eurosmallmammals_icon.svg'
 END
 
+SYMBOL
+    NAME 'eurocam'
+    TYPE svg
+    image 'icons/eurocam_icon.svg'
+END
+
+
 END
