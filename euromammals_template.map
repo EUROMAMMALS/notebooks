@@ -64,12 +64,10 @@ MAP
         TYPE POLYGON
         NAME "Study areas"
         CONNECTIONTYPE POSTGIS
-        CONNECTION "host={host} user={user} password={password} dbname={network}_db"
+        CONNECTION "host={host} user={user} password={password} dbname={network}"
         DATA "geom from main.study_areas"
         PROCESSING "CLOSE_CONNECTION=DEFER"
-        LABELCACHE ON
         STATUS ON
-        LABELITEM "short_name"
         CLASS
             NAME "Study areas"
             STYLE
@@ -79,12 +77,13 @@ MAP
             END
         END
     END
+
     LAYER
         TYPE POINT
         NAME "Reserch groups"
         CONNECTIONTYPE POSTGIS
-        CONNECTION "host={host} user={user} password={password} dbname={network}_db"
-        DATA "geom from (select research_groups_id, short_name, geom from main.research_groups where ST_Contains(!BOX!, geom)) as subquery using unique research_groups_id using srid 4326"
+        CONNECTION "host={host} user={user} password={password} dbname={network}"
+        DATA "geom from (select {id}, short_name, geom from {table} where ST_Contains(ST_MakeEnvelope ({bound}, 4326), geom)) as subquery using unique {id} using srid 4326"
         PROCESSING "CLOSE_CONNECTION=DEFER"
         LABELCACHE ON
         STATUS ON
